@@ -1,0 +1,33 @@
+{
+  "name": "shopping_list_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeeloByron/Shopping_List_API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/NeeloByron/Shopping_List_API/issues"
+  },
+  "homepage": "https://github.com/NeeloByron/Shopping_List_API#readme",
+  "dependencies": {
+    "@types/code": "^4.0.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
