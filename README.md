@@ -81,6 +81,11 @@ npm i typescript ts-node @types/code
 
 ```bash
 # Installation of dependency installation 
+npm install -D tsx
+```
+
+```bash
+# Installation of dependency installation 
 npm i -D nodemon
 ```
 
