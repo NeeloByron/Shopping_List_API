@@ -1,3 +1,5 @@
+// Server entry point & routing
+
 import http = require('http');
 import type { IncomingMessage, ServerResponse } from 'http';
 
