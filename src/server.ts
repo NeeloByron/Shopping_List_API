@@ -1,7 +1,9 @@
 // Server entry point & routing
-
 import http = require('http');
 import type { IncomingMessage, ServerResponse } from 'http';
+
+// controller method using commonJS
+const itemController = require('@/controllers/itemController');
 
 const port = 3000;
 
