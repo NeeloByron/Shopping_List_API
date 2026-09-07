@@ -39,7 +39,7 @@ addItem(name: string, quantity: number): Item {
    const item = items.find((item) => item.id === id );
 
     if (!item) return null;
-    
+
     // apply changes field by field if they are present in the request
     if (updates.name !== undefined) item.name = updates.name;
     if (updates.quantity !== undefined) item.quantity = updates.quantity;
@@ -51,10 +51,4 @@ function getItemById(id: any, string: any) {
   throw new Error('Function not implemented.');
 }
 
-// export 
-module.exports = {
-  getAllItems,
-  addItem,
-  getItemById,
-  updateItem,
-};
+
