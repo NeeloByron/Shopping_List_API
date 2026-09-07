@@ -60,6 +60,10 @@
   <li><strong>TypeScript</strong> - Type-safe JavaScript</li>
 </ul>
 
+## Getting Started
+- Node.js (v14 or higher)
+- npm 
+
 <hr>
 
 ### Steps to Run locally
@@ -70,43 +74,29 @@ git clone https://github.com/NeeloByron/Shopping_List_API.git
 ```
 
 ```bash
-# Initialise Package.json
+# Navigate to the project directory
+cd Shopping_List_API
+```
+
+```bash
+# Initialize package.json
 npm init -y
 ```
 
 ```bash
-# Installation of dependency installation 
+# Install TypeScript and dependencies
 npm i typescript ts-node @types/code
 ```
 
 ```bash
 # Installation of dependency installation 
 npm install -D tsx
-```
-
-```bash
-# Installation of dependency installation 
-npm i -D nodemon
+npm install -D nodemon
 ```
 
 ```bash
 # TypeScript Compiler Configuration
 npx tsc --init
-```
-
-```bash
-# File structure 
-mkdir src
-touch src/index.ts
-```
-
-```bash
-# Node Task Automation 
-"Script": {
-  "build": "tsc",
-  "start": "node dist/index.js",
-  "dev": "nodemon src/index.ts"
-}
 ```
 
 ```bash

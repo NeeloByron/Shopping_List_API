@@ -55,13 +55,14 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
  return;
 }
 
-// handle dynamic paths (e.g., /items/1)
+// handle dynamic routes starting with (e.g., /items/1)
  if (url.startsWith('/items/')) {
+  // spiltting "/item/1" results in ["", "items", "1"]
   const parts = url.split('/');
   // grabs the value right after the second slash  
   const id = parts[2];
 
-  if (!id || id.trim() === '') {
+  if (!id) {
     res.writeHead(400, { 'content-type': 'application/json' });
     return res.end(JSON.stringify ({ success: false, error: 'Missing or malformed item ID in URL.' }));
   }
@@ -88,6 +89,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
         const bodyString = Buffer.concat(chunks).toString();
         const updates = JSON.parse(bodyString);
 
+        const updatedItem = itemController.updateItem(id, updates);
         // Strict validation guards for optional fields
         if (updates.name !== undefined && typeof updates.name !== 'string' || updates.name.trim() === '') {
           res.writeHead(400, { 'content-type': 'application/json' });
@@ -103,15 +105,30 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
       }
 
       res.writeHead(200, { 'content-type': 'application/json' });
-      return res.end(JSON.stringify(updateItem));
+      return res.end(JSON.stringify(updatedItem));
     } catch (error) {
       res.writeHead(400, { 'content-type': 'application/json' })
+      return res.end(JSON.stringify({ success: false, error: "Invalid JSON format."}));
     }
+  });
+  return;
+ }
+
+  // Route: DELETE /items/:id (Delete Item)
+  if (method === 'DELETE') {
+      const wasDeleted = itemController.deleteItem(id);
+      if (!wasDeleted) {
+        res.writeHead(404, { 'content-Type' : 'application/json'});
+        return res.end(JSON.stringify({ success: false, error: `Item with ID ${id} not found.`}));
+      }
+
+      // 204 No Content means sucess but we don't send any data back
+       res.writeHead(204);
+       return res.end();
   }
+     }
 
- }         
-
-// default fallback   
+// default fallback: 404 Endpoint handler for unknown routes
 res.writeHead(404, { 'content-type': 'application/json' });
 res.end(JSON.stringify({ success: false, error: 'Endpoint not found.' }));
 
