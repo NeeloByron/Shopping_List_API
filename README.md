@@ -1,4 +1,4 @@
-<h2 align="center">🛒 Shopping List API</h2>
+<h2 align="center">Shopping List API</h2>
 
 <p align="center">
   <em>A REST API built with Node.js and TypeScript that lets users manage the items they want to buy.</em>
