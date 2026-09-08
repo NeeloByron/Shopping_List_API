@@ -9,7 +9,6 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
   res.end(JSON.stringify({ message: "Testing"}));
 }
 
-
 const server = http.createServer(requestListener);
 
 server.listen(port, () => {

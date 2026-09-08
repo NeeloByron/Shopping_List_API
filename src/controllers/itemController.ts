@@ -1,10 +1,10 @@
 // Business logic for each endpoint
-import type { Item } from '@/models/item';
+import type { Item } from '@/Types/item.js'
 
 const items: Item[] = [];
 let nextId = 1;
 
-function getAllItems(): Item[] {
+export function getAllItems(): Item[] {
   return items;
 }
 
@@ -12,7 +12,7 @@ function getAllItems(): Item[] {
 function addItem(name: string, quantity: number): Item {
   const item: Item = {
     id: String(nextId++),
-    name,
+    name: name.trim(),
     quantity,
     purchased: false,
   };
@@ -39,17 +39,18 @@ function updateItem(
 
   if (!item) return null;
 
-  // apply changes field by field if they are present in the request
+  // apply updates
   if (updates.name !== undefined) item.name = updates.name;
   if (updates.quantity !== undefined) item.quantity = updates.quantity;
   if (updates.purchased !== undefined) item.purchased = updates.purchased;
   return item;
 }
 
-module.exports = {
-  getAllItems,
-  addItem,
-  getItemById,
-  updateItem,
-};
+function deleteItem(id: string): boolean {
+  const index = items.findIndex((item) => item.id === id);
+  if (index === -1) return false;
+
+  items.splice(index, 1);
+  return true;
+}
 
