@@ -60,6 +60,21 @@
   <li><strong>TypeScript</strong> - Type-safe JavaScript</li>
 </ul>
 
+## Setup 
+
+Initialize package.json
+- npm init -y
+
+Install TypeScript and dependencies
+- npm i typescript ts-node @types/code
+
+Installation of dependency installation 
+- npm install -D tsx nodemon
+
+TypeScript Compiler Configuration
+- npx tsc --init
+
+
 ## Getting Started
 - Node.js (v14 or higher)
 - npm 
@@ -76,27 +91,6 @@ git clone https://github.com/NeeloByron/Shopping_List_API.git
 ```bash
 # Navigate to the project directory
 cd Shopping_List_API
-```
-
-```bash
-# Initialize package.json
-npm init -y
-```
-
-```bash
-# Install TypeScript and dependencies
-npm i typescript ts-node @types/code
-```
-
-```bash
-# Installation of dependency installation 
-npm install -D tsx
-npm install -D nodemon
-```
-
-```bash
-# TypeScript Compiler Configuration
-npx tsc --init
 ```
 
 ```bash
