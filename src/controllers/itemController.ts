@@ -9,7 +9,7 @@ export function getAllItems(): Item[] {
 }
 
 // in memory array data
-function addItem(name: string, quantity: number): Item {
+export function addItem(name: string, quantity: number): Item {
   const item: Item = {
     id: String(nextId++),
     name: name.trim(),
@@ -22,12 +22,12 @@ function addItem(name: string, quantity: number): Item {
 }
 
 // find a single item by its string id
-function getItemById(id: string): Item | undefined {
+export function getItemById(id: string): Item | undefined {
   return items.find((item) => item.id === id);
 }
 
 // find an item and mutate its specific fields if provided
-function updateItem(
+export function updateItem(
   id: string,
   updates: {
     name?: string;
@@ -46,7 +46,7 @@ function updateItem(
   return item;
 }
 
-function deleteItem(id: string): boolean {
+export function deleteItem(id: string): boolean {
   const index = items.findIndex((item) => item.id === id);
   if (index === -1) return false;
 

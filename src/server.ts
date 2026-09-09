@@ -1,5 +1,5 @@
 // Server entry point & routing
-import http = require('http')
+import http from 'http';
 import type { IncomingMessage, ServerResponse } from 'http';
 
 const port = 3000;

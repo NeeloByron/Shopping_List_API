@@ -1,6 +1,6 @@
 
 import type { IncomingMessage, ServerResponse } from 'http';
-import itemController = require('@/controllers/itemController');
+import { getAllItems, addItem, getItemById, updateItem, deleteItem } from '@/controllers/itemController.js'
 
 const requestListener = (req: IncomingMessage, res: ServerResponse) => {
   const url = req.url || '';
@@ -8,7 +8,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
 
  // 1. Route: Get/items 
  if (method === 'GET' && url === '/items') {
-  const allItems = itemController.getAllItems();
+  const allItems = getAllItems();
   res.writeHead(200, {'content-type': 'application/json' });
   return res.end(JSON.stringify(allItems));
  }
@@ -46,7 +46,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
     }
 
     // create the item using controller logic
-   const newItem = itemController.addItem(name, quantity);
+   const newItem = addItem(name, quantity);
     res.writeHead(201, { 'content-type': 'application/json' });
     return res.end(JSON.stringify(newItem));
 
@@ -77,7 +77,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
 
   // GET /items/:id 
   if (method === 'GET') {
-    const item = itemController.getItemById(id);
+    const item = getItemById(id);
     if (!item) {
       res.writeHead(404, { 'content-type': 'application/json' });
       return res.end(JSON.stringify({ 
@@ -131,7 +131,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
             }
           }
 
-      const updatedItem = itemController.updateItem(id, updates);
+      const updatedItem = updateItem(id, updates);
       if (!updatedItem) {
         res.writeHead(404, { 'content-type': 'application/json' });
         return res.end(JSON.stringify({
@@ -156,7 +156,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
 
   // DELETE /items/:id 
   if (method === 'DELETE') {
-      const wasDeleted = itemController.deleteItem(id);
+      const wasDeleted = deleteItem(id);
       if (!wasDeleted) {
         res.writeHead(404, { 'content-Type' : 'application/json'});
         return res.end(JSON.stringify({ 
