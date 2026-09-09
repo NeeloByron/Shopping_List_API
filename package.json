@@ -1,7 +1,7 @@
 {
   "name": "shopping_list_api",
   "version": "1.0.0",
-  "description": "",
+  "description": "<h2 align=\"center\">Shopping List API</h2>",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,13 +16,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/NeeloByron/Shopping_List_API/issues"
   },
   "homepage": "https://github.com/NeeloByron/Shopping_List_API#readme",
   "dependencies": {
-    "@types/code": "^4.0.8",
+    "@types/node": "^4.9.5",
     "ts-node": "^10.9.2",
     "typescript": "^7.0.2"
   },

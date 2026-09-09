@@ -1,179 +1,273 @@
-
 import type { IncomingMessage, ServerResponse } from 'http';
-import { getAllItems, addItem, getItemById, updateItem, deleteItem } from '@/controllers/itemController.js'
 
-const requestListener = (req: IncomingMessage, res: ServerResponse) => {
-  const url = req.url || '';
-  const method = req.method || '';
+import {
+    sendSuccess,
+    sendError
+} from '../controllers/errors';
 
- // 1. Route: Get/items 
- if (method === 'GET' && url === '/items') {
-  const allItems = getAllItems();
-  res.writeHead(200, {'content-type': 'application/json' });
-  return res.end(JSON.stringify(allItems));
- }
+import {
+    getAllItems,
+    addItem,
+    getItemById,
+    updateItem,
+    deleteItem
+} from '../controllers/itemController';
 
- // 2. Route: POST/items
- if (method === 'POST' && url === '/items') {
-  const chunks: Buffer[] = [];
-  // collect incoming streaming data buffer from the client
-  req.on('data', (chunk: Buffer) => {
-    chunks.push(chunk);
-  });
+export async function requestHandler(
+    req: IncomingMessage,
+    res: ServerResponse
+): Promise<void> {
 
-  // once the full payload body completes transimission
-  req.on('end', () => {
-    try {
-      const bodyString = Buffer.concat(chunks).toString();
-      const parsedBody = JSON.parse(bodyString);
-      const { name, quantity } = parsedBody;
+    res.setHeader('Content-Type', 'application/json');
 
-      // validation
-      if (!name || typeof name !== 'string' || name.trim() === '') {
-        res.writeHead(400, { 'content-type': 'application/json' });
-        return res.end(JSON.stringify({
-                     success: false,
-                     error: "Validation failed. 'name' (string) and 'quantity' (number) are required fields."
-        }));
+    const method = req.method;
+    const url = req.url || '';
+
+    // GET /items
+    if (method === 'GET' && url === '/items') {
+
+        sendSuccess(
+            res,
+            200,
+            getAllItems()
+        );
+
+        return;
     }
 
-    if (quantity === undefined || typeof quantity !== 'number' || quantity <=0 ) {
-      res.writeHead(400, { 'content-type': 'application/json' });
-      return res.end(JSON.stringify({
-        success: false,
-        error: "Validation failed. 'quantity' (number > 0) is required."
-      }));
+    // GET /items/:id
+    if (method === 'GET' && url.startsWith('/items/')) {
+
+        const id = url.split('/')[2];
+
+        if (!id) {
+            sendError(
+                res,
+                400,
+                'Item ID is required'
+            );
+
+            return;
+        }
+
+        const item = getItemById(id);
+
+        if (!item) {
+            sendError(
+                res,
+                404,
+                'Item not found'
+            );
+
+            return;
+        }
+
+        sendSuccess(
+            res,
+            200,
+            item
+        );
+
+        return;
     }
 
-    // create the item using controller logic
-   const newItem = addItem(name, quantity);
-    res.writeHead(201, { 'content-type': 'application/json' });
-    return res.end(JSON.stringify(newItem));
+    // POST /items
+    if (method === 'POST' && url === '/items') {
 
-  } catch (error) {
-    // intercept unhandled json parsing breakdowns gracefully
-    res.writeHead(400, { 'content-type': 'application/json' });
-    return res.end(JSON.stringify({ 
-              success: false, 
-              error: 'Invalid JSON format payload.' 
-       }));
-     }
-  });
- return;
+        let body = '';
+
+        req.on('data', (chunk: Buffer) => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+
+            try {
+
+                const data = JSON.parse(body);
+
+                const {
+                    name,
+                    quantity,
+                    purchased
+                } = data;
+
+                // Validate name
+                if (
+                    typeof name !== 'string' ||
+                    name.trim() === ''
+                ) {
+                    sendError(
+                        res,
+                        400,
+                        'Name is required'
+                    );
+
+                    return;
+                }
+
+                // Validate quantity
+                if (
+                    typeof quantity !== 'number' ||
+                    quantity <= 0
+                ) {
+                    sendError(
+                        res,
+                        400,
+                        'Quantity must be greater than 0'
+                    );
+
+                    return;
+                }
+
+                // Validate purchased
+                if (typeof purchased !== 'boolean') {
+                    sendError(
+                        res,
+                        400,
+                        'Purchased must be a boolean'
+                    );
+
+                    return;
+                }
+
+                const item = addItem(
+                    name,
+                    quantity,
+                    purchased
+                );
+
+                sendSuccess(
+                    res,
+                    201,
+                    item
+                );
+
+            } catch {
+
+                sendError(
+                    res,
+                    400,
+                    'Invalid JSON'
+                );
+            }
+        });
+
+        return;
+    }
+
+    // PUT /items/:id
+    if (method === 'PUT' && url.startsWith('/items/')) {
+
+        const id = url.split('/')[2];
+
+        if (!id) {
+            sendError(res, 400,'Item ID is required');
+            return;
+        }
+
+        const existingItem = getItemById(id);
+
+        if (!existingItem) {
+            sendError(res, 404,'Item not found');
+            return;
+        }
+
+        let body = '';
+
+        req.on('data', (chunk: Buffer) => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+
+            try {
+
+                const updates = JSON.parse(body);
+
+                // Validate name
+                if (
+                    updates.name !== undefined &&
+                    (
+                        typeof updates.name !== 'string' ||
+                        updates.name.trim() === ''
+                    )
+                ) {
+                    sendError(res, 400, 'Name must be a non-empty string');
+                    return;
+                }
+
+                // Validate quantity
+                if (
+                    updates.quantity !== undefined &&
+                    (
+                        typeof updates.quantity !== 'number' ||
+                        updates.quantity <= 0
+                    )
+                ) {
+                    sendError(res, 400,'Quantity must be greater than 0' );
+                    return;
+                }
+
+                // Validate purchased
+                if (
+                    updates.purchased !== undefined &&
+                    typeof updates.purchased !== 'boolean'
+                ) {
+                    sendError( res, 400,'Purchased must be a boolean');
+                    return;
+                }
+
+                const updatedItem = updateItem(id, updates);
+                sendSuccess(res, 200, updatedItem
+                );
+
+            } catch {
+                sendError(res, 400,'Invalid JSON');
+            }
+        });
+
+        return;
+    }
+
+    // DELETE /items/:id
+    if (method === 'DELETE' && url.startsWith('/items/')) {
+
+        const id = url.split('/')[2];
+
+        if (!id) {
+            sendError(
+                res,
+                400,
+                'Item ID is required'
+            );
+
+            return;
+        }
+
+        const deleted = deleteItem(id);
+
+        if (!deleted) {
+            sendError(
+                res,
+                404,
+                'Item not found'
+            );
+
+            return;
+        }
+
+        // 204 No Content
+        res.writeHead(204);
+        res.end();
+
+        return;
+    }
+
+    // Route not found
+    sendError(
+        res,
+        404,
+        'Route not found'
+    );
 }
-
-// 3. dynamic routes starting with (e.g., /items/:id)
- if (url.startsWith('/items/')) {
-  const parts = url.split('/'); 
-  const id = parts[2];
-
-  if (!id) {
-    res.writeHead(400, { 'content-type': 'application/json' });
-    return res.end(JSON.stringify ({ 
-         success: false, 
-         error: 'Missing or malformed item ID in URL.' 
-      }));
-  }
-
-  // GET /items/:id 
-  if (method === 'GET') {
-    const item = getItemById(id);
-    if (!item) {
-      res.writeHead(404, { 'content-type': 'application/json' });
-      return res.end(JSON.stringify({ 
-           success: false, 
-           error: `Item with ID "${id}" not found` 
-       }));
-    }
-
-    res.writeHead(200, { 'content-type': 'application/json' });
-    return res.end(JSON.stringify(item));
-  }
-
-  // PUT /items/:id 
-  if (method === 'PUT') { 
-    const chunks: Buffer[] = [];
-    req.on('data', (chunk: Buffer) => chunks.push(chunk));
-    req.on('end', () => {
-      try {
-        const bodyString = Buffer.concat(chunks).toString();
-        const updates = JSON.parse(bodyString);
-
-        // Validation BEFORE attempting update
-      if (updates.name !== undefined) {
-        if (typeof updates.name !== 'string' || updates.name.trim() === '') { 
-          res.writeHead(400, { 'content-type': 'application/json' });
-           return res.end(JSON.stringify({ 
-              success: false, 
-              error: "validation failed. Name must be a non-empty string."
-            }));
-          }
-        }
-
-      if (updates.quantity !== undefined) {
-        if (typeof updates.quantity !== 'number' || updates.quantity <= 0) { 
-        res.writeHead(400, { 'content-type': 'application/json' });
-        return res.end(JSON.stringify({
-               success: false, 
-               error: "Validation failed. Quantity must be a number greater than 0."
-              }));
-            }
-         }
-
-
-      if (updates.purchased !== undefined) {
-        if (typeof updates.purchased !== 'boolean') { 
-        res.writeHead(400, { 'content-type': 'application/json' });
-        return res.end(JSON.stringify({ 
-               success: false, 
-               error : "Validation failed. Purchased must be a boolean." 
-              }))
-            }
-          }
-
-      const updatedItem = updateItem(id, updates);
-      if (!updatedItem) {
-        res.writeHead(404, { 'content-type': 'application/json' });
-        return res.end(JSON.stringify({
-          success: false,
-          error: `Item with ID "${id}" not found.`
-        }));
-      }
-
-      res.writeHead(200, { 'content-type': 'application/json' });
-      return res.end(JSON.stringify(updatedItem));
-
-    } catch (error) {
-      res.writeHead(400, { 'content-type': 'application/json' })
-      return res.end(JSON.stringify({ 
-           success: false, 
-           error: "Invalid JSON format."
-          }));
-        }
-     });
-  return;
- }
-
-  // DELETE /items/:id 
-  if (method === 'DELETE') {
-      const wasDeleted = deleteItem(id);
-      if (!wasDeleted) {
-        res.writeHead(404, { 'content-Type' : 'application/json'});
-        return res.end(JSON.stringify({ 
-          success: false, 
-          error: `Item with ID "${id}" not found.`}));
-      }
-
-      // 204 No Content means sucess but we don't send any data back
-       res.writeHead(204);
-       return res.end();
-  }
-     }
-
-// default fallback: 404 Endpoint handler for unknown routes
-res.writeHead(404, { 'content-type': 'application/json' });
-res.end(JSON.stringify({ 
-  success: false, 
-  error: 'Endpoint not found.'
- }));
-};
