@@ -1,17 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-
-import {
-    sendSuccess,
-    sendError
-} from '../controllers/errors';
-
-import {
-    getAllItems,
-    addItem,
-    getItemById,
-    updateItem,
-    deleteItem
-} from '../controllers/itemController';
+import { sendSuccess, sendError } from '../controllers/errors';
+import { getAllItems, addItem, getItemById, updateItem, deleteItem } from '../controllers/itemController';
 
 export async function requestHandler(
     req: IncomingMessage,
@@ -25,49 +14,26 @@ export async function requestHandler(
 
     // GET /items
     if (method === 'GET' && url === '/items') {
-
-        sendSuccess(
-            res,
-            200,
-            getAllItems()
-        );
-
+      sendSuccess(res,200,getAllItems());
         return;
     }
 
     // GET /items/:id
     if (method === 'GET' && url.startsWith('/items/')) {
-
         const id = url.split('/')[2];
-
         if (!id) {
-            sendError(
-                res,
-                400,
-                'Item ID is required'
-            );
-
+            sendError( res, 400, 'Item ID is required');
             return;
         }
 
         const item = getItemById(id);
 
         if (!item) {
-            sendError(
-                res,
-                404,
-                'Item not found'
-            );
-
+            sendError( res, 404, 'Item not found');
             return;
         }
 
-        sendSuccess(
-            res,
-            200,
-            item
-        );
-
+        sendSuccess(res, 200, item );
         return;
     }
 
@@ -97,12 +63,7 @@ export async function requestHandler(
                     typeof name !== 'string' ||
                     name.trim() === ''
                 ) {
-                    sendError(
-                        res,
-                        400,
-                        'Name is required'
-                    );
-
+                    sendError( res, 400, 'Name is required');
                     return;
                 }
 
@@ -111,23 +72,13 @@ export async function requestHandler(
                     typeof quantity !== 'number' ||
                     quantity <= 0
                 ) {
-                    sendError(
-                        res,
-                        400,
-                        'Quantity must be greater than 0'
-                    );
-
+                    sendError(res, 400, 'Quantity must be greater than 0' );
                     return;
                 }
 
                 // Validate purchased
                 if (typeof purchased !== 'boolean') {
-                    sendError(
-                        res,
-                        400,
-                        'Purchased must be a boolean'
-                    );
-
+                    sendError( res, 400,'Purchased must be a boolean');
                     return;
                 }
 
@@ -137,19 +88,9 @@ export async function requestHandler(
                     purchased
                 );
 
-                sendSuccess(
-                    res,
-                    201,
-                    item
-                );
-
+                sendSuccess( res, 201, item);
             } catch {
-
-                sendError(
-                    res,
-                    400,
-                    'Invalid JSON'
-                );
+                sendError( res, 400, 'Invalid JSON'  );
             }
         });
 
@@ -236,24 +177,14 @@ export async function requestHandler(
         const id = url.split('/')[2];
 
         if (!id) {
-            sendError(
-                res,
-                400,
-                'Item ID is required'
-            );
-
+            sendError( res, 400, 'Item ID is required');
             return;
         }
 
         const deleted = deleteItem(id);
 
         if (!deleted) {
-            sendError(
-                res,
-                404,
-                'Item not found'
-            );
-
+            sendError( res, 404, 'Item not found' );
             return;
         }
 
@@ -265,9 +196,5 @@ export async function requestHandler(
     }
 
     // Route not found
-    sendError(
-        res,
-        404,
-        'Route not found'
-    );
+    sendError( res, 404, 'Route not found' );
 }
