@@ -29,7 +29,7 @@ export async function requestHandler(
         const item = getItemById(id);
 
         if (!item) {
-            sendError( res, 404, 'Item not found');
+            sendError(res, 404, 'Item not found');
             return;
         }
 
@@ -49,9 +49,7 @@ export async function requestHandler(
         req.on('end', () => {
 
             try {
-
                 const data = JSON.parse(body);
-
                 const {
                     name,
                     quantity,
@@ -59,19 +57,13 @@ export async function requestHandler(
                 } = data;
 
                 // Validate name
-                if (
-                    typeof name !== 'string' ||
-                    name.trim() === ''
-                ) {
+                if (typeof name !== 'string' || name.trim() === '' ) {
                     sendError( res, 400, 'Name is required');
                     return;
                 }
 
                 // Validate quantity
-                if (
-                    typeof quantity !== 'number' ||
-                    quantity <= 0
-                ) {
+                if (typeof quantity !== 'number' || quantity <= 0) {
                     sendError(res, 400, 'Quantity must be greater than 0' );
                     return;
                 }
@@ -82,14 +74,10 @@ export async function requestHandler(
                     return;
                 }
 
-                const item = addItem(
-                    name,
-                    quantity,
-                    purchased
-                );
+                const item = addItem( name, quantity, purchased );
 
                 sendSuccess( res, 201, item);
-            } catch {
+             } catch {
                 sendError( res, 400, 'Invalid JSON'  );
             }
         });
@@ -99,7 +87,6 @@ export async function requestHandler(
 
     // PUT /items/:id
     if (method === 'PUT' && url.startsWith('/items/')) {
-
         const id = url.split('/')[2];
 
         if (!id) {
@@ -121,11 +108,8 @@ export async function requestHandler(
         });
 
         req.on('end', () => {
-
             try {
-
                 const updates = JSON.parse(body);
-
                 // Validate name
                 if (
                     updates.name !== undefined &&

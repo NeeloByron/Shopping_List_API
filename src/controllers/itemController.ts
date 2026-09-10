@@ -53,6 +53,7 @@ export function updateItem(
     
 }
 
+// delete item 
 export function deleteItem(id: string): boolean {
   const index = items.findIndex((item) => item.id === id);
   if (index === -1) {

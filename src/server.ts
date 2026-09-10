@@ -3,7 +3,7 @@ import http from 'http';
 import type { IncomingMessage, ServerResponse } from 'http';
 import { requestHandler } from './Routes/response';
 
-const port = 3000;
+const port = 4001;
 
 const requestListener = (req: IncomingMessage, res: ServerResponse) => {
   if(req.url?.startsWith('/items')) { 

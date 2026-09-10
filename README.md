@@ -12,6 +12,14 @@
 
 <hr>
 
+## Screenshot 
+
+<p align="center">
+  <img src="./src/assets/post-items.png" alt="Shopping List App Dashboard" width="700">
+</p>
+  
+<hr>
+
 <h2>Features</h2>
 
 <table>
