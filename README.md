@@ -92,6 +92,11 @@
 <ul>
   <li><strong>Node.js</strong> - Runtime environment</li>
   <li><strong>TypeScript</strong> - Type-safe JavaScript</li>
+  <li><strong>Node.js HTTP Module</strong> - Handles HTTP requests and responses</li>
+  <li><strong>Postman</strong> - API testing</li>
+  <li><strong>Nodemon</strong> - Development server auto-restart</li>
+  <li><strong>tsx</strong> - Runs TypeScript during development</li>
+  <li><strong>Git & GitHub</strong> - Version control and repository hosting</li>
 </ul>
 
 ## Setup 
@@ -110,8 +115,9 @@ TypeScript Compiler Configuration
 
 
 ## Getting Started
-- Node.js (v14 or higher)
+- Node.js 
 - npm 
+- Git
 
 <hr>
 
@@ -130,4 +136,126 @@ cd Shopping_List_API
 ```bash
 # Run locally
 npm run dev
+```
+
+```bash
+# The server will run at
+http://localhost:4001
+```
+
+<hr>
+
+## API Endpoints
+
+### POST /items
+
+Creates a new shopping list item.
+
+**Request body:**
+
+```json
+{
+  "name": "Milk",
+  "quantity": 1,
+  "purchased": false
+}
+```
+
+**Successful response:** `201 Created`
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "1",
+    "name": "Milk",
+    "quantity": 1,
+    "purchased": false
+  }
+}
+```
+
+### GET /items
+
+Returns all shopping list items.
+
+**Successful response:** `200 OK`
+
+### GET /items/:id
+
+Returns a single shopping list item by its ID.
+
+Example:
+
+```text
+GET /items/1
+```
+
+**Successful response:** `200 OK`
+
+If the item does not exist:
+
+```text
+404 Not Found
+```
+
+### PUT /items/:id
+
+Updates an existing shopping list item.
+
+Example:
+
+```text
+PUT /items/1
+```
+
+**Request body:**
+
+```json
+{
+  "quantity": 2,
+  "purchased": true
+}
+```
+
+**Successful response:** `200 OK`
+
+### DELETE /items/:id
+
+Deletes an existing shopping list item.
+
+Example:
+
+```text
+DELETE /items/1
+```
+
+**Successful response:** `204 No Content`
+
+<hr>
+
+## Error Handling
+
+The API returns consistent JSON error responses.
+
+### 400 Bad Request
+
+Example:
+
+```json
+{
+  "success": false,
+  "error": "Quantity must be greater than 0"
+}
+```
+
+### 404 Not Found
+
+Example:
+
+```json
+{
+  "success": false,
+  "error": "Item not found"
+}
 ```
