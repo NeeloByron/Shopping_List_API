@@ -14,30 +14,36 @@
 
 ## Screenshot 
 
-<h4> POST/item </h4>
+<h4> POST /item </h4>
 <p align="center">
-  <img src="./src/Assets/POST-Items.png" width="700" alt="POST Items endpoint">
+  <img src="./src/Assets/POST-Items.png" alt="POST items" width="700">
 </p>
 
 <h4> GET/items </h4>
 <p align="center">
-  <img src="src/assets/post-items.png" width="700">
+  <img src="./src/Assets/GET-items.png" alt="GET all items width="700">
 </p>
 
 <h4> GET/items/:id </h4>
 <p align="center">
-  <img src="src/assets/post-items.png" width="700">
+  <img src="./src/Assets/GET-Item-id.png" alt="GET item by ID" width="700">
 </p>
 
 <h4> PUT/items/:id </h4>
 <p align="center">
-  <img src="src/assets/post-items.png" width="700">
+  <img src="./src/Assets/PUT-items-id.png" alt="PUT update item by ID" width="700">
 </p>
 
 <h4> DELETE/items/:id </h4>
 <p align="center">
-  <img src="src/assets/post-items.png" width="700">
+  <img src="./src/Assets/DELETE-items-id.png" alt="DELETE item by ID" width="700">
 </p>
+
+<h4> 404 Not Found </h4>
+<h4> DELETE/items/:id </h4>
+<p align="center">
+  <img src="./src/Assets/404 Not found.png" alt="404 Not Found response" width="700">
+</p
   
 <hr>
 
