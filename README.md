@@ -1,4 +1,4 @@
-<h2 align="center">🛒 Shopping List API</h2>
+<h2 align="center">Shopping List API</h2>
 
 <p align="center">
   <em>A REST API built with Node.js and TypeScript that lets users manage the items they want to buy.</em>
@@ -10,6 +10,40 @@
 
 <p>You need to make a note of groceries before going to the store. You're making a shopping list consisting of items such as "Milk" or "Bread". As you shop, you check off items that you purchased. You can change amounts (e.g., 2L of milk rather than 1), and delete items you no longer need.</p>
 
+<hr>
+
+## Screenshot 
+
+<h4> POST/item </h4>
+<p align="center">
+  <img src="./src/Assets/POST-Items.png" alt="POST items" width="700">
+</p>
+
+<h4> GET/items </h4>
+<p align="center">
+  <img src="./src/Assets/GET-items.png" alt="GET all items" width="700">
+</p>
+
+<h4> GET/items/:id </h4>
+<p align="center">
+  <img src="./src/Assets/GET-Item-id.png" alt="GET item by ID" width="700">
+</p>
+
+<h4> PUT/items/:id </h4>
+<p align="center">
+  <img src="./src/Assets/PUT-items-id.png" alt="PUT update item by ID" width="700">
+</p>
+
+<h4> DELETE/items/:id </h4>
+<p align="center">
+  <img src="./src/Assets/DELETE-items-id.png" alt="DELETE item by ID" width="700">
+</p>
+
+<h4> 404 Not Found </h4>
+<p align="center">
+  <img src="./src/Assets/404 Not found.png" alt="404 Not Found response" width="700">
+</p
+  
 <hr>
 
 <h2>Features</h2>
@@ -58,7 +92,32 @@
 <ul>
   <li><strong>Node.js</strong> - Runtime environment</li>
   <li><strong>TypeScript</strong> - Type-safe JavaScript</li>
+  <li><strong>Node.js HTTP Module</strong> - Handles HTTP requests and responses</li>
+  <li><strong>Postman</strong> - API testing</li>
+  <li><strong>Nodemon</strong> - Development server auto-restart</li>
+  <li><strong>tsx</strong> - Runs TypeScript during development</li>
+  <li><strong>Git & GitHub</strong> - Version control and repository hosting</li>
 </ul>
+
+## Setup 
+
+Initialize package.json
+- npm init -y
+
+Install TypeScript and dependencies
+- npm i typescript ts-node @types/code
+
+Installation of dependency installation 
+- npm install -D tsx nodemon
+
+TypeScript Compiler Configuration
+- npx tsc --init
+
+
+## Getting Started
+- Node.js 
+- npm 
+- Git
 
 <hr>
 
@@ -70,46 +129,133 @@ git clone https://github.com/NeeloByron/Shopping_List_API.git
 ```
 
 ```bash
-# Initialise Package.json
-npm init -y
-```
-
-```bash
-# Installation of dependency installation 
-npm i typescript ts-node @types/code
-```
-
-```bash
-# Installation of dependency installation 
-npm install -D tsx
-```
-
-```bash
-# Installation of dependency installation 
-npm i -D nodemon
-```
-
-```bash
-# TypeScript Compiler Configuration
-npx tsc --init
-```
-
-```bash
-# File structure 
-mkdir src
-touch src/index.ts
-```
-
-```bash
-# Node Task Automation 
-"Script": {
-  "build": "tsc",
-  "start": "node dist/index.js",
-  "dev": "nodemon src/index.ts"
-}
+# Navigate to the project directory
+cd Shopping_List_API
 ```
 
 ```bash
 # Run locally
 npm run dev
+```
+
+```bash
+# The server will run at
+http://localhost:4001
+```
+
+<hr>
+
+## API Endpoints
+
+### POST /items
+
+Creates a new shopping list item.
+
+**Request body:**
+
+```json
+{
+  "name": "Milk",
+  "quantity": 1,
+  "purchased": false
+}
+```
+
+**Successful response:** `201 Created`
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "1",
+    "name": "Milk",
+    "quantity": 1,
+    "purchased": false
+  }
+}
+```
+
+### GET /items
+
+Returns all shopping list items.
+
+**Successful response:** `200 OK`
+
+### GET /items/:id
+
+Returns a single shopping list item by its ID.
+
+Example:
+
+```text
+GET /items/1
+```
+
+**Successful response:** `200 OK`
+
+If the item does not exist:
+
+```text
+404 Not Found
+```
+
+### PUT /items/:id
+
+Updates an existing shopping list item.
+
+Example:
+
+```text
+PUT /items/1
+```
+
+**Request body:**
+
+```json
+{
+  "quantity": 2,
+  "purchased": true
+}
+```
+
+**Successful response:** `200 OK`
+
+### DELETE /items/:id
+
+Deletes an existing shopping list item.
+
+Example:
+
+```text
+DELETE /items/1
+```
+
+**Successful response:** `204 No Content`
+
+<hr>
+
+## Error Handling
+
+The API returns consistent JSON error responses.
+
+### 400 Bad Request
+
+Example:
+
+```json
+{
+  "success": false,
+  "error": "Quantity must be greater than 0"
+}
+```
+
+### 404 Not Found
+
+Example:
+
+```json
+{
+  "success": false,
+  "error": "Item not found"
+}
 ```
