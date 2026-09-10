@@ -16,7 +16,7 @@
 
 <h4> POST/item </h4>
 <p align="center">
-  <img src="./src/Assets/POST-Items.png" alt="GET item by ID" width="700">
+  <img src="./src/Assets/POST-Items.png" alt="POST items" width="700">
 </p>
 
 <h4> GET/items </h4>
