@@ -15,9 +15,7 @@
 ## Screenshot 
 
 <h4> POST/item </h4>
-<p align="center">
-  <img src="./src/Assets/POST-Items.png" width="700">
-</p>
+![POST Add item](./src/Assets/POST-Items.png)
 
 <h4> GET/items </h4>
 <p align="center">
