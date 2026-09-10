@@ -40,7 +40,6 @@
 </p>
 
 <h4> 404 Not Found </h4>
-<h4> DELETE/items/:id </h4>
 <p align="center">
   <img src="./src/Assets/404 Not found.png" alt="404 Not Found response" width="700">
 </p
