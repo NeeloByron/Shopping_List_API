@@ -15,7 +15,7 @@
 ## Screenshot 
 
 <p align="center">
-  <img src="./src/assets/post-items.png" alt="Shopping List App Dashboard" width="700">
+  <img src="./src/assets/post-items.png" width="700">
 </p>
   
 <hr>
