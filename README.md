@@ -14,6 +14,27 @@
 
 ## Screenshot 
 
+<h4> POST/item </h4>
+<p align="center">
+  <img src="./src/Assets/POST-Items.png" width="700">
+</p>
+
+<h4> GET/items </h4>
+<p align="center">
+  <img src="src/assets/post-items.png" width="700">
+</p>
+
+<h4> GET/items/:id </h4>
+<p align="center">
+  <img src="src/assets/post-items.png" width="700">
+</p>
+
+<h4> PUT/items/:id </h4>
+<p align="center">
+  <img src="src/assets/post-items.png" width="700">
+</p>
+
+<h4> DELETE/items/:id </h4>
 <p align="center">
   <img src="src/assets/post-items.png" width="700">
 </p>

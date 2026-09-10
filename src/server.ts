@@ -1,20 +1,10 @@
 // Server entry point & routing
 import http from 'http';
-import type { IncomingMessage, ServerResponse } from 'http';
 import { requestHandler } from './Routes/response';
 
 const port = 4001;
 
-const requestListener = (req: IncomingMessage, res: ServerResponse) => {
-  if(req.url?.startsWith('/items')) { 
-    requestHandler(req, res);
-  } else { 
-  res.writeHead(200, {"content-type": "application/json"});
-  res.end(JSON.stringify({ message: "Testing"}));
-  }
-};
-
-const server = http.createServer(requestListener);
+const server = http.createServer(requestHandler);
 
 server.listen(port, () => {
   console.log(`Server is running natively on http://localhost:${port}`);
