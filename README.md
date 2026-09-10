@@ -14,14 +14,14 @@
 
 ## Screenshot 
 
-<h4> POST /item </h4>
+<h4> POST/item </h4>
 <p align="center">
-  <img src="./src/Assets/POST-Items.png" alt="POST items" width="700">
+  <img src="./src/Assets/POST-Items.png" alt="GET item by ID" width="700">
 </p>
 
 <h4> GET/items </h4>
 <p align="center">
-  <img src="./src/Assets/GET-items.png" alt="GET all items width="700">
+  <img src="./src/Assets/GET-items.png" alt="GET all items" width="700">
 </p>
 
 <h4> GET/items/:id </h4>
