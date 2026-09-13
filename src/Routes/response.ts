@@ -3,22 +3,22 @@ import { sendSuccess, sendError } from '../controllers/errors';
 import { getAllItems, addItem, getItemById, updateItem, deleteItem } from '../controllers/itemController';
 
 export async function requestHandler(
-    req: IncomingMessage,
-    res: ServerResponse
+    req: IncomingMessage, // contains what the caller wants
+    res: ServerResponse // sends the answer back.
 ): Promise<void> {
 
     res.setHeader('Content-Type', 'application/json');
 
-    const method = req.method;
-    const url = req.url || '';
+    const method = req.method; // describes the action
+    const url = req.url || ''; // tells it which item or list to use 
 
-    // GET /items
+    // GET /items - returns every item
     if (method === 'GET' && url === '/items') {
       sendSuccess(res,200,getAllItems());
         return;
     }
 
-    // GET /items/:id
+    // GET /items/:id - returns item or error if missing 
     if (method === 'GET' && url.startsWith('/items/')) {
         const id = url.split('/')[2];
         if (!id) {
@@ -37,7 +37,7 @@ export async function requestHandler(
         return;
     }
 
-    // POST /items
+    // POST /items - checks the supplied details then creates an item
     if (method === 'POST' && url === '/items') {
 
         let body = '';
@@ -85,7 +85,7 @@ export async function requestHandler(
         return;
     }
 
-    // PUT /items/:id
+    // PUT /items/:id - checks and changes the supplied fields for item
     if (method === 'PUT' && url.startsWith('/items/')) {
         const id = url.split('/')[2];
 
